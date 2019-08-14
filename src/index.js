@@ -8,8 +8,10 @@ app.use(bodyParser.urlencoded({ extended: false }));
 
 const port = process.env.port || 3000;
 
-//importar o accountController
+//importar o Controller
 require('./controllers/accountController')(app);
+require('./controllers/authController')(app);
+
 
 app.listen(port, (err) => {
     if (err) {
