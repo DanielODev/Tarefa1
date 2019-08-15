@@ -11,7 +11,7 @@ const port = process.env.port || 3000;
 //importar o Controller
 require('./controllers/accountController')(app);
 require('./controllers/authController')(app);
-
+require('./controllers/transactionController')(app);
 
 app.listen(port, (err) => {
     if (err) {

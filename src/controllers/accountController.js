@@ -17,7 +17,7 @@ function generateToken(params = { }){
 
 //rota de registro
 router.post('/new', async (req, res) => {
-    const {cpf } = req.body;
+    const { cpf } = req.body;
     //console.log('req.body', req.body)
 
     try{
@@ -38,25 +38,28 @@ router.post('/new', async (req, res) => {
         }
 });
 
+
 //rota de autenticação
 router.post('/authenticate', async (req, res) => {
-const { cpf, password } = req.body;
-  
-const account = await Account.findOne({ cpf }).select('+password');
+    const { cpf, password } = req.body;
+    
+    const account = await Account.findOne({ cpf }).select('+password');
 
-if (!account)
-  return res.status(400).send({ error: 'Usuário não encontrado' });
+    if (!account)
+    return res.status(400).send({ error: 'Usuário não encontrado' });
 
-if (!await bcrypt.compare(password, account.password))
-    return res.status(400).send({ error: 'Password inválido' });
+    if (!await bcrypt.compare(password, account.password))
+        return res.status(400).send({ error: 'Password inválido' });
 
-account.password = undefined;
+    account.password = undefined;
 
-res.send({
-    account,
-    token: generateToken({ id: account.id }),
+    res.send({
+        account,
+        token: generateToken({ id: account.id }),
+    });
+
 });
 
-});
+
 
 module.exports = app => app.use('/account', router);
