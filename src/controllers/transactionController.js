@@ -2,21 +2,18 @@ const express = require('express');
 
 const Account = require('../models/Account');
 const Transaction = require('../models/Transaction');
+const authMiddleware = require('../middlewares/auth')
 
 const router = express.Router();
+
+router.use(authMiddleware);
 
 
 
 //criação da transaction
 router.post('/new', async (req, res) => {
-    const { cpf, type, amount } = req.body;
-    //console.log('req.body', req.body)
-
+    const { type, amount } = req.body;
     try{
-        const account = await Account.findOne({ cpf })
-        if(!account)
-        return res.status(400).send({ error: 'Conta não cadastrada'});
-
         if (type !== 'deposit' && type !== 'withdraw'){
             return res.status(400).send({ error: 'Operação inválida'});
         }
@@ -28,7 +25,7 @@ router.post('/new', async (req, res) => {
         const transaction = new Transaction({ 
             type,
             amount, 
-            account: account._id,
+            account: req.accountId,
         });
 
         await transaction.save();
@@ -37,21 +34,18 @@ router.post('/new', async (req, res) => {
             transaction
          });
         }catch(err){
-            console.log(err)
             return res.status(400).send({ error: 'Falha no registro'});
         }
 });
 
 // retornar a lista de transactions
 router.get('/list', async(req, res) =>{
-    const { cpf } = req.body;
-
     try{
-        const account = await Account.findOne({ cpf })
+        const account = await Account.findOne({ _id: req.accountId })
         if(!account)
         return res.status(400).send({ error: 'Conta não cadastrada'});
 
-        const transactions = await Transaction.find({ account: account._id });
+        const transactions = await Transaction.find({ account: req.accountId });
         let total = 0;
         transactions.map( transaction => {
             if (transaction.type === 'deposit'){
@@ -66,31 +60,8 @@ router.get('/list', async(req, res) =>{
             transactions,
          });
     }catch (err) {
-        console.log(err)
         return res.status(400).send({ error: 'Falha na consulta'});
     }
-});
-
-
-//rota de autenticação
-router.post('/authenticate', async (req, res) => {
-    const { cpf, password } = req.body;
-    
-    const account = await Account.findOne({ cpf }).select('+password');
-
-    if (!account)
-    return res.status(400).send({ error: 'conta não encontrada' });
-
-    if (!await bcrypt.compare(password, account.password))
-        return res.status(400).send({ error: 'Password inválido' });
-
-    account.password = undefined;
-
-    res.send({
-        account,
-        token: generateToken({ id: account.id }),
-    });
-
 });
 
 module.exports = app => app.use('/transaction', router);

@@ -18,7 +18,6 @@ function generateToken(params = { }){
 //rota de registro
 router.post('/new', async (req, res) => {
     const { cpf } = req.body;
-    //console.log('req.body', req.body)
 
     try{
         if(await Account.findOne({ cpf }))
@@ -33,13 +32,12 @@ router.post('/new', async (req, res) => {
             token: generateToken({id: account.id})
          });
         }catch(err){
-           // console.log(err)
             return res.status(400).send({ error: 'Falha no registro'});
         }
 });
 
 
-//rota de autenticação
+//rota de autenticação da senha
 router.post('/authenticate', async (req, res) => {
     const { cpf, password } = req.body;
     

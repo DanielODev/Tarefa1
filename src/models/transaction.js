@@ -1,5 +1,4 @@
 const mongoose = require('../database');
-// const bcrypt = require('bcryptjs');
 
 const transactionSchema = new mongoose.Schema({
     account: {
@@ -22,14 +21,6 @@ const transactionSchema = new mongoose.Schema({
     },
    
 });
-
-// bcrtypt(.pre-> função do mongoose)
-// transactionSchema.pre('save', async function(next){
-//     const hash = await bcrypt.hash(this.password, 10);
-//     this.password = hash;
-
-// next();
-// });
 
 const Transaction = mongoose.model('Transaction', transactionSchema);
 
