@@ -11,13 +11,14 @@ Para instalação do projeto é necessário rodar o comando:
 Para rodar o projeto usa-se o seguinte comando:
 - node src/index.js
 ## Endpoints do postmam:
-- Collection Account.
+Collection Account.
 https://www.getpostman.com/collections/8fc64049ca23182740ce
 
 * POST que cria uma conta bancária:
 http://localhost:3000/account/new
-- Body
 ```
+Body:
+
 {
 	"name": "Daniel",
 	"cpf": "00281274088",
@@ -26,46 +27,50 @@ http://localhost:3000/account/new
 ```
 * POST para login na conta.
 http://localhost:3000/account/authenticate
-- Body
 ```
+Body:
+
 {
 	"cpf": "00281274088",
 	"password": "12345"
 }
 ```
-- Collection Transactions
+Collection Transactions
 https://www.getpostman.com/collections/314d76fcecf516a3cd6e
 
 * POST para depósitos na conta bancária, necessita autenticação pelo token.
 http://localhost:3000/transaction/new
-- Body
 ```
+Body:
+
 {
     "type": "deposit",
     "amount": 5000
 }
-```
-- Headers
-```
+
+Headers:
+
 Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjVkNTVlZGMxMzFjNjAyMjA0MDZmMTQ1MyIsImlhdCI6MTU2NTkxMjUxMywiZXhwIjoxNTY2MDg0NTEzfQ.NBCEAL0frMaDhZLl4YHEfYm0j1NFcgqsM7JsMBadaUU
 ```
 * POST para saques na conta bancaria, necessita autenticação pelo token. 
 http://localhost:3000/transaction/new
-- Body
 ```
+Body:
+
 {
     "type": "withdraw",
     "amount": 3000
 }
-```
-- Headers
-```
+
+Headers
+
 Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjVkNTVlZGMxMzFjNjAyMjA0MDZmMTQ1MyIsImlhdCI6MTU2NTkxMjUxMywiZXhwIjoxNTY2MDg0NTEzfQ.NBCEAL0frMaDhZLl4YHEfYm0j1NFcgqsM7JsMBadaUU
 ```
 * GET lista as transactions da conta.
 http://localhost:3000/transaction/list
-- Headers
 ```
+Headers
+
 Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjVkNTVlZGMxMzFjNjAyMjA0MDZmMTQ1MyIsImlhdCI6MTU2NTkxMjUxMywiZXhwIjoxNTY2MDg0NTEzfQ.NBCEAL0frMaDhZLl4YHEfYm0j1NFcgqsM7JsMBadaUU
 ```
 ## License:
