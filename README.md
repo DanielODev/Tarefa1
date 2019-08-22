@@ -2,14 +2,20 @@
 
 ## Nome do projeto:
 Tarefa1
+
 ## Descrição: 
 Api Restful para criação de conta bancaria e movimentações.
-## Installation:
+
+## Instalação:
 Para instalação do projeto é necessário rodar o comando:
+```
 - npm install.
-## Usage:
+```
+## Uso:
 Para rodar o projeto usa-se o seguinte comando:
+```
 - node src/index.js
+```
 ## Endpoints do postmam:
 Collection Account.
 https://www.getpostman.com/collections/8fc64049ca23182740ce
@@ -73,7 +79,8 @@ Headers
 
 Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjVkNTVlZGMxMzFjNjAyMjA0MDZmMTQ1MyIsImlhdCI6MTU2NTkxMjUxMywiZXhwIjoxNTY2MDg0NTEzfQ.NBCEAL0frMaDhZLl4YHEfYm0j1NFcgqsM7JsMBadaUU
 ```
-## License:
+## Licença:
 MIT.
+
 ## Autor:
 Daniel Orlandi.
