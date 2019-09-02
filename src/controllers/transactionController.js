@@ -3,6 +3,8 @@ const express = require('express');
 const Account = require('../models/Account');
 const Transaction = require('../models/Transaction');
 const authMiddleware = require('../middlewares/auth')
+var moment = require('moment');
+var currencyFormatter = require('currency-formatter');
 
 const router = express.Router();
 
@@ -47,19 +49,32 @@ router.get('/list', async(req, res) =>{
 
         const transactions = await Transaction.find({ account: req.accountId });
         let total = 0;
+        let transactionsNew = []
         transactions.map( transaction => {
             if (transaction.type === 'deposit'){
                total = total + transaction.amount 
             }else{
                 total = total - transaction.amount 
             }
+
+            createdAtFormatted = moment(transaction.createdAt).format("DD/MM/YYYY HH:mm") 
+            amountFormatted = currencyFormatter.format(transaction.amount, { code: 'BRL' }) 
+
+            const item = {
+                _id: transaction._id,
+                type: transaction.type,
+                createdAt: createdAtFormatted,
+                amount: amountFormatted
+            }
+            transactionsNew.push(item)
         })
+
         return res.send({ 
             account,
-            total,
-            transactions,
+            total: currencyFormatter.format(total, { code: 'BRL' }),
+            transactions: transactionsNew,
          });
-    }catch (err) {
+    } catch (err) {
         return res.status(400).send({ error: 'Falha na consulta'});
     }
 });
